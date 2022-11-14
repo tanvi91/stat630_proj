@@ -1,0 +1,54 @@
+---
+title: 'STAT 630: Project Proposal'
+author: ' Tanvi Pavan Safiya'
+date: 'Due: Nov 15th, 2022'
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+### Section 1: Introduction
+
+### Section 2: Data
+
+```{r}
+projData <- readr::read_csv(here::here("data/measurements.csv"))
+#projData <- na.omit(projData) 
+```
+
+### Section 3: Data Analysis Plan
+
+-   Step 1: Linearity - Scatterplot:
+
+    ```{r}
+
+    library(dplyr)
+    library(ggplot2)
+    xvar <- projData$temp_inside
+    yvar <- projData$consume
+    ggplot(projData, aes(x = xvar, y = yvar)) +
+      geom_point() + 
+      geom_smooth(method = "lm", se = FALSE, col = "blue")
+    ```
+
+-   Independence
+
+-   Constant variance
+
+    ```{r}
+    mod <- lm(yvar ~ xvar, data = projData)
+
+    plot(resid(mod) ~ mod$fitted.values)
+
+    abline(h = 0, col = "red")
+    ```
+
+-   Normality
+
+    ```{r}
+    qqnorm(resid(mod))
+
+    qqline(resid(mod), col = "red")
+    ```
